@@ -5,7 +5,7 @@ interface TextOptions {
   text: string;
   font?: string;
   textColor?: string;
-  bgColor?: string;
+  bgColor?: string; // Ignored now
   x?: number;
   y?: number;
   rotation?: number;
@@ -17,7 +17,6 @@ export async function generateTextTexture({
   text,
   font = 'Arial',
   textColor = '#FFFFFF',
-  bgColor = '#000000',
   x = 256,
   y = 256,
   rotation = 0,
@@ -29,13 +28,7 @@ export async function generateTextTexture({
   const ctx = canvas.getContext('2d')!;
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  // ✅ Always apply background color
-  if (bgColor !== 'transparent') {
-    ctx.fillStyle = bgColor;
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-  }
-
-  // 🖼️ Draw all uploaded images
+  // 🖼️ Draw images (on transparent background)
   for (const image of images) {
     const img = await loadImage(image.url);
     const { x, y, scale, rotation } = image.transform;
@@ -47,7 +40,7 @@ export async function generateTextTexture({
     ctx.restore();
   }
 
-  // ✍️ Draw text (if any)
+  // ✍️ Draw text
   if (text) {
     ctx.save();
     ctx.translate(x, y);
@@ -56,7 +49,7 @@ export async function generateTextTexture({
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     ctx.lineWidth = 4;
-    ctx.strokeStyle = '#FFFFFF';
+    ctx.strokeStyle = '#FFF';
     ctx.strokeText(text, 0, 0);
     ctx.fillStyle = textColor;
     ctx.fillText(text, 0, 0);
