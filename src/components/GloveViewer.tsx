@@ -83,7 +83,7 @@ function GloveViewer() {
         const material = child.material;
         const name = child.name;
 
-        // Apply base colors
+        // 🎨 Appliquer la couleur selon les zones
         switch (name) {
           case 'Fingers': material.color.set(glove.fingersColor.hex); break;
           case 'InnerPalm': material.color.set(glove.innerPalmColor.hex); break;
@@ -98,14 +98,16 @@ function GloveViewer() {
 
         const zone = name as keyof typeof textZones;
         const hasText = textZones[zone]?.text;
-        const hasImage = !!customImages[zone]?.url;
+        const images = customImages[zone] ?? [];
 
-        const image = customImages[zone];
-        if (image && !image.transform) {
-          image.transform = { x: 0, y: 0, scale: 1, rotation: 0 };
-        }
+        // 👁️ Ensure every image has a transform object
+        images.forEach(image => {
+          if (!image.transform) {
+            image.transform = { x: 0, y: 0, scale: 1, rotation: 0 };
+          }
+        });
 
-        if (hasText || hasImage) {
+        if (hasText || images.length > 0) {
           const texture = await generateTextTexture({
             text: textZones[zone]?.text || '',
             font: textZones[zone]?.font,
@@ -115,7 +117,7 @@ function GloveViewer() {
             x: textZones[zone]?.x,
             y: textZones[zone]?.y,
             rotation: textZones[zone]?.rotation,
-            images: hasImage ? [customImages[zone]] : [],
+            images: images
           });
 
           material.map = texture;
