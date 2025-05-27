@@ -43,7 +43,7 @@ export const useCartStore = create<CartStore>((set, get) => ({
             id: glove.id,
             glove,
             quantity,
-            price: glove.basePrice + glove.customizationCost,
+            price: 90, // Fixed price at $90
           },
         ],
       };
