@@ -1,4 +1,3 @@
-You said:
 import { create } from 'zustand';
 import { CustomGlove, TextSettings, CustomImage, Zone } from '../store/customizationStore';
 
