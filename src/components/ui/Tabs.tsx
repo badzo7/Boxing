@@ -15,7 +15,7 @@ interface TabsProps {
 export const Tabs: React.FC<TabsProps> = ({ defaultValue, children }) => {
   const [value, setValue] = useState(defaultValue);
 
-  return ( 
+  return (
     <TabsContext.Provider value={{ value, onChange: setValue }}>
       <div>{children}</div>
     </TabsContext.Provider>
@@ -23,7 +23,7 @@ export const Tabs: React.FC<TabsProps> = ({ defaultValue, children }) => {
 };
 
 function useTabsContext() {
-  const context = useContext(TabsContext); 
+  const context = useContext(TabsContext);
   if (!context) {
     throw new Error('Tabs components must be used within a Tabs provider');
   }
@@ -37,7 +37,7 @@ interface TabsListProps {
 
 export const TabsList: React.FC<TabsListProps> = ({ children, className = '' }) => {
   return (
-    <div className={`flex space-x-2 ${className}`}>
+    <div className={`w-full flex justify-between items-center gap-4 ${className}`}>
       {children}
     </div>
   );
