@@ -31,7 +31,7 @@ const ColorSelector: React.FC = () => {
     { id: 'outerThumb', label: 'Outer Thumb', color: glove.outerThumbColor },
     { id: 'strap', label: 'Wrist Outline', color: glove.strapColor },
     { id: 'wrist', label: 'Wrist', color: glove.wristColor },
-    { id: 'wristOutline', label: 'Starp', color: glove.wristOutlineColor },
+    { id: 'wristOutline', label: 'Strap', color: glove.wristOutlineColor },
     { id: 'outline', label: 'Outline', color: glove.outlineColor },
   ];
 
@@ -40,7 +40,7 @@ const ColorSelector: React.FC = () => {
       {sections.map((section) => (
         <div key={section.id} className="mb-6">
           <h3 className="text-lg font-semibold mb-3">{section.label}</h3>
-          <div className="grid grid-cols-5 gap-3">
+          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-2 sm:gap-3">
             {colors.map((color) => (
               <button
                 key={`${section.id}-${color.name}`}
@@ -50,17 +50,18 @@ const ColorSelector: React.FC = () => {
                   w-full aspect-square rounded-lg relative z-10 border border-white
                   ${section.color?.name === color.name ? 'ring-2 ring-gold ring-offset-2 ring-offset-navy' : ''}
                   hover:scale-105 transition-transform duration-200
+                  focus:outline-none focus:ring-2 focus:ring-gold
                 `}
                 title={`${color.name}${color.price > 0 ? ` (+$${color.price.toFixed(2)})` : ''}`}
               >
                 {color.price > 0 && (
-                  <div className="absolute bottom-0 right-0 bg-black/70 px-1.5 py-0.5 text-xs text-white">
+                  <div className="absolute bottom-0 right-0 bg-black/70 px-1.5 py-0.5 text-[10px] sm:text-xs text-white">
                     +${color.price.toFixed(2)}
                   </div>
                 )}
                 {color.name.toLowerCase().includes('metallic') && (
-                  <div className="absolute top-0 left-0 bg-yellow-300/30 px-1.5 py-0.5 text-xs text-black">
-                    ✨ Metallic
+                  <div className="absolute top-0 left-0 bg-yellow-300/30 px-1 sm:px-1.5 py-0.5 text-[10px] sm:text-xs text-black">
+                    ✨
                   </div>
                 )}
               </button>
