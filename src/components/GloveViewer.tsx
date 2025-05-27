@@ -83,24 +83,27 @@ function GloveViewer() {
         const material = child.material;
         const name = child.name;
 
-        // 🎨 Appliquer la couleur selon les zones
+        // 🧠 Récupère la vraie couleur du gant
+        let gloveColorHex = '#ffffff';
         switch (name) {
-          case 'Fingers': material.color.set(glove.fingersColor.hex); break;
-          case 'InnerPalm': material.color.set(glove.innerPalmColor.hex); break;
-          case 'OutterPalm': material.color.set(glove.outerPalmColor.hex); break;
-          case 'InnerThumb': material.color.set(glove.innerThumbColor.hex); break;
-          case 'OutterThumb': material.color.set(glove.outerThumbColor.hex); break;
-          case 'Strap': material.color.set(glove.strapColor.hex); break;
-          case 'Wrist': material.color.set(glove.wristColor.hex); break;
-          case 'WristOutline': material.color.set(glove.wristOutlineColor.hex); break;
-          case 'Outline': material.color.set(glove.outlineColor.hex); break;
+          case 'Fingers': gloveColorHex = glove.fingersColor.hex; break;
+          case 'InnerPalm': gloveColorHex = glove.innerPalmColor.hex; break;
+          case 'OutterPalm': gloveColorHex = glove.outerPalmColor.hex; break;
+          case 'InnerThumb': gloveColorHex = glove.innerThumbColor.hex; break;
+          case 'OutterThumb': gloveColorHex = glove.outerThumbColor.hex; break;
+          case 'Strap': gloveColorHex = glove.strapColor.hex; break;
+          case 'Wrist': gloveColorHex = glove.wristColor.hex; break;
+          case 'WristOutline': gloveColorHex = glove.wristOutlineColor.hex; break;
+          case 'Outline': gloveColorHex = glove.outlineColor.hex; break;
         }
+
+        // ⛔️ Ne pas teinter la texture
+        material.color.set('#ffffff');
 
         const zone = name as keyof typeof textZones;
         const hasText = textZones[zone]?.text;
         const images = customImages[zone] ?? [];
 
-        // 👁️ Ensure every image has a transform object
         images.forEach(image => {
           if (!image.transform) {
             image.transform = { x: 0, y: 0, scale: 1, rotation: 0 };
@@ -113,7 +116,7 @@ function GloveViewer() {
             font: textZones[zone]?.font,
             size: textZones[zone]?.size,
             textColor: textZones[zone]?.color,
-            bgColor: material.color.getStyle(),
+            bgColor: gloveColorHex,
             x: textZones[zone]?.x,
             y: textZones[zone]?.y,
             rotation: textZones[zone]?.rotation,
@@ -122,7 +125,15 @@ function GloveViewer() {
 
           material.map = texture;
         } else {
-          material.map = null;
+          // 🧤 Crée une texture plate de la couleur du gant
+          const canvas = document.createElement('canvas');
+          canvas.width = canvas.height = 2;
+          const ctx = canvas.getContext('2d')!;
+          ctx.fillStyle = gloveColorHex;
+          ctx.fillRect(0, 0, 2, 2);
+          const baseTexture = new THREE.CanvasTexture(canvas);
+
+          material.map = baseTexture;
         }
 
         material.needsUpdate = true;
