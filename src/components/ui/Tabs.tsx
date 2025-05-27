@@ -37,7 +37,7 @@ interface TabsListProps {
 
 export const TabsList: React.FC<TabsListProps> = ({ children, className = '' }) => {
   return (
-    <div className={`w-full flex justify-between items-center gap-4 ${className}`}>
+    <div className={`w-full flex flex-wrap justify-between items-center gap-4 overflow-x-auto ${className}`}>
       {children}
     </div>
   );
