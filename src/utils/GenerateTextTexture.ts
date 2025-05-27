@@ -52,7 +52,7 @@ export async function generateTextTexture({
     ctx.save();
     ctx.translate(x, y);
     ctx.rotate((rotation * Math.PI) / 180);
-    ctx.font = bold ${size}px ${font};
+    ctx.font = `${size}px ${font}`;
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
 
