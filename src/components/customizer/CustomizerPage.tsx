@@ -48,8 +48,8 @@ const CustomizerPage: React.FC = () => {
         </div>
 
         <Tabs defaultValue="colors">
-          <TabsList className="flex justify-between items-center mb-4">
-            <div className="flex gap-2">
+          <TabsList className="flex flex-wrap justify-between items-center gap-4 mb-4">
+            <div className="flex gap-2 flex-wrap">
               <TabsTrigger value="colors">Colors</TabsTrigger>
               <TabsTrigger value="material">Materials</TabsTrigger>
               <TabsTrigger value="size">Size</TabsTrigger>
@@ -59,7 +59,7 @@ const CustomizerPage: React.FC = () => {
 
             <button
               onClick={handleAddToCart}
-              className="bg-yellow-500 text-black px-4 py-2 rounded hover:bg-yellow-600 transition"
+              className="shrink-0 bg-yellow-500 text-black px-4 py-2 rounded hover:bg-yellow-600 transition flex items-center"
             >
               <ShoppingCart className="h-4 w-4 mr-1" />
               Add to Cart - ${calculatePrice().toFixed(2)}
