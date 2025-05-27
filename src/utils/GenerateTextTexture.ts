@@ -40,4 +40,41 @@ export async function generateTextTexture({
     const img = await loadImage(image.url);
     const { x, y, scale, rotation } = image.transform;
     ctx.save();
-    ctx.transla
+    ctx.translate(x + 256, y + 256);
+    ctx.rotate((rotation * Math.PI) / 180);
+    ctx.scale(scale, scale);
+    ctx.drawImage(img, -img.width / 2, -img.height / 2);
+    ctx.restore();
+  }
+
+  // ✍️ Draw text (if any)
+  if (text) {
+    ctx.save();
+    ctx.translate(x, y);
+    ctx.rotate((rotation * Math.PI) / 180);
+    ctx.font = `bold ${size}px ${font}`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.lineWidth = 4;
+    ctx.strokeStyle = '#FFFFFF';
+    ctx.strokeText(text, 0, 0);
+    ctx.fillStyle = textColor;
+    ctx.fillText(text, 0, 0);
+    ctx.restore();
+  }
+
+  const texture = new THREE.CanvasTexture(canvas);
+  texture.flipY = false;
+  texture.needsUpdate = true;
+  return texture;
+}
+
+function loadImage(src: string): Promise<HTMLImageElement> {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.crossOrigin = 'anonymous';
+    img.onload = () => resolve(img);
+    img.onerror = reject;
+    img.src = src;
+  });
+}
