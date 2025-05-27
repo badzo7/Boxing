@@ -48,12 +48,22 @@ const CustomizerPage: React.FC = () => {
         </div>
 
         <Tabs defaultValue="colors">
-          <TabsList>
-            <TabsTrigger value="colors">Colors</TabsTrigger>
-            <TabsTrigger value="material">Materials</TabsTrigger>
-            <TabsTrigger value="size">Size</TabsTrigger>
-            <TabsTrigger value="custom">Custom Text</TabsTrigger>
-            <TabsTrigger value="image">Image</TabsTrigger>
+          <TabsList className="flex justify-between items-center mb-4">
+            <div className="flex gap-2">
+              <TabsTrigger value="colors">Colors</TabsTrigger>
+              <TabsTrigger value="material">Materials</TabsTrigger>
+              <TabsTrigger value="size">Size</TabsTrigger>
+              <TabsTrigger value="custom">Custom Text</TabsTrigger>
+              <TabsTrigger value="image">Image</TabsTrigger>
+            </div>
+
+            <button
+              onClick={handleAddToCart}
+              className="bg-yellow-500 text-black px-4 py-2 rounded hover:bg-yellow-600 transition"
+            >
+              <ShoppingCart className="h-4 w-4 mr-1" />
+              Add to Cart - ${calculatePrice().toFixed(2)}
+            </button>
           </TabsList>
 
           <TabsContent value="colors">
@@ -76,16 +86,6 @@ const CustomizerPage: React.FC = () => {
             <ImageUploader />
           </TabsContent>
         </Tabs>
-
-        <div className="mt-8 sticky bottom-6">
-          <button
-            onClick={handleAddToCart}
-            className="w-full btn btn-primary py-4 text-lg font-semibold flex items-center justify-center gap-2"
-          >
-            <ShoppingCart className="h-5 w-5" />
-            Add to Cart - ${calculatePrice().toFixed(2)}
-          </button>
-        </div>
       </div>
     </div>
   );
