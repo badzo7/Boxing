@@ -26,8 +26,7 @@ export const useCartStore = create<CartStore>((set, get) => ({
       const cartItem: CartItem = {
         id: uuidv4(),
         glove: {
-          ...glove,
-          id: uuidv4(), // Ensure unique ID for each cart item
+          ...glove, // Preserve all glove properties including colors
         },
         quantity,
         price: 90, // Fixed price at $90
