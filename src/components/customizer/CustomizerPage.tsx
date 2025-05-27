@@ -13,17 +13,21 @@ import { ShoppingCart } from 'lucide-react';
 
 const CustomizerPage: React.FC = () => {
   const navigate = useNavigate();
-  const { glove } = useCustomizationStore();
-  const { addToCart } = useCartStore();
+  const {
+    glove,
+    textZones,
+    customImages,
+    calculatePrice
+  } = useCustomizationStore();
+
+  const addToCart = useCartStore(state => state.addToCart);
 
   const handleAddToCart = () => {
-    // Override the price to $90
-    const gloveWithFixedPrice = {
-      ...glove,
-      basePrice: 90,
-      customizationCost: 0
-    };
-    addToCart(gloveWithFixedPrice, 1);
+    const canvas = document.querySelector('canvas') as HTMLCanvasElement;
+    const preview = canvas?.toDataURL('image/png') || '';
+    const price = calculatePrice();
+
+    addToCart(glove, textZones, customImages, preview, price, 1);
     navigate('/cart');
   };
 
@@ -38,7 +42,9 @@ const CustomizerPage: React.FC = () => {
       <div className="w-full lg:w-2/5 p-6 bg-neutral-900 overflow-y-auto">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-bold">Customize Your Gloves</h2>
-          <div className="text-xl font-bold text-gold">$90.00</div>
+          <div className="text-xl font-bold text-gold">
+            ${calculatePrice().toFixed(2)}
+          </div>
         </div>
 
         <Tabs defaultValue="colors">
@@ -77,7 +83,7 @@ const CustomizerPage: React.FC = () => {
             className="w-full btn btn-primary py-4 text-lg font-semibold flex items-center justify-center gap-2"
           >
             <ShoppingCart className="h-5 w-5" />
-            Add to Cart - $90.00
+            Add to Cart - ${calculatePrice().toFixed(2)}
           </button>
         </div>
       </div>
