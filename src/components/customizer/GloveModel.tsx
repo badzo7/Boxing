@@ -17,25 +17,45 @@ const GloveModel: React.FC = () => {
   });
 
   useEffect(() => {
-    const applyColor = (name: string, color: string) => {
-      const mesh = scene.getObjectByName(name) as THREE.Mesh;
-      if (mesh && mesh.material && 'color' in mesh.material) {
-        (mesh.material as THREE.MeshStandardMaterial).color.set(color);
-        console.log(`🎨 ${name} colored with ${color}`);
-      } else {
-        console.warn(`❌ Mesh not found or invalid material: ${name}`);
-      }
-    };
+    scene.traverse((node) => {
+      if (node instanceof THREE.Mesh) {
+        const material = node.material as THREE.MeshStandardMaterial;
+        
+        // Apply colors based on mesh name
+        switch (node.name) {
+          case 'Fingers':
+            material.color.set(glove.fingersColor.hex);
+            break;
+          case 'Inner_Palm':
+            material.color.set(glove.innerPalmColor.hex);
+            break;
+          case 'Outer_Palm':
+            material.color.set(glove.outerPalmColor.hex);
+            break;
+          case 'Inner_Thumb':
+            material.color.set(glove.innerThumbColor.hex);
+            break;
+          case 'Outer_Thumb':
+            material.color.set(glove.outerThumbColor.hex);
+            break;
+          case 'Strap':
+            material.color.set(glove.strapColor.hex);
+            break;
+          case 'Wrist':
+            material.color.set(glove.wristColor.hex);
+            break;
+          case 'Wrist_Outline':
+            material.color.set(glove.wristOutlineColor.hex);
+            break;
+          case 'Outline':
+            material.color.set(glove.outlineColor.hex);
+            break;
+        }
 
-    applyColor('Fingers', glove.mainColor.hex);
-    applyColor('Inner Palm', glove.palmColor.hex);
-    applyColor('Outer Palm', glove.palmColor.hex);
-    applyColor('Inner Thumb', glove.thumbColor.hex);
-    applyColor('Outer Thumb', glove.thumbColor.hex);
-    applyColor('Strap', glove.wristColor.hex);
-    applyColor('Wrist', glove.wristColor.hex);
-    applyColor('Wrist Outline', glove.trimColor.hex);
-    applyColor('Outline', glove.trimColor.hex);
+        // Update material
+        material.needsUpdate = true;
+      }
+    });
   }, [glove, scene]);
 
   return (
@@ -48,6 +68,3 @@ const GloveModel: React.FC = () => {
 export default GloveModel;
 
 useGLTF.preload('/models/glove.glb');
-
-
-
