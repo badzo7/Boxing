@@ -29,16 +29,15 @@ export async function generateTextTexture({
   const ctx = canvas.getContext('2d')!;
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  // ✅ Always apply background color (even with image)
+  // ✅ Always apply background color
   if (bgColor !== 'transparent') {
     ctx.fillStyle = bgColor;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
   }
 
-  // 🖼️ Draw uploaded images
+  // 🖼️ Draw all uploaded images
   for (const image of images) {
     const img = await loadImage(image.url);
     const { x, y, scale, rotation } = image.transform;
     ctx.save();
-    ctx.translate(x + 256, y + 256);
-    ctx.ro
+    ctx.transla
