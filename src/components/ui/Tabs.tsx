@@ -10,15 +10,14 @@ const TabsContext = createContext<TabsContextType | undefined>(undefined);
 interface TabsProps {
   defaultValue: string;
   children: ReactNode;
-  className?: string;
 }
 
-export const Tabs: React.FC<TabsProps> = ({ defaultValue, children, className = '' }) => {
+export const Tabs: React.FC<TabsProps> = ({ defaultValue, children }) => {
   const [value, setValue] = useState(defaultValue);
 
   return ( 
     <TabsContext.Provider value={{ value, onChange: setValue }}>
-      <div className={className}>{children}</div>
+      <div>{children}</div>
     </TabsContext.Provider>
   );
 };
@@ -38,7 +37,7 @@ interface TabsListProps {
 
 export const TabsList: React.FC<TabsListProps> = ({ children, className = '' }) => {
   return (
-    <div className={`flex flex-wrap gap-2 ${className}`}>
+    <div className={`flex space-x-2 ${className}`}>
       {children}
     </div>
   );
@@ -67,7 +66,6 @@ export const TabsTrigger: React.FC<TabsTriggerProps> = ({ value, children, class
           ? 'bg-gold text-navy' 
           : 'bg-navy/50 text-neutral-300 hover:bg-navy/70'
         }
-        focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-1 focus:ring-offset-neutral-900
         ${className}
       `}
     >

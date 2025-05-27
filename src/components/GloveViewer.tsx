@@ -45,13 +45,13 @@ function GloveViewer() {
     dracoLoader.setDecoderPath('https://www.gstatic.com/draco/v1/decoders/');
     loader.setDRACOLoader(dracoLoader);
 
-    loader.load('/Boxing_Gloves_13_Demo_0114.glb', async (gltf) => {
+    loader.load('/Boxing_Gloves_13_Demo_0114.glb', (gltf) => {
       const model = gltf.scene;
       model.scale.set(0.1, 0.1, 0.1);
       model.position.set(0, 0.1, 0);
       modelRef.current = model;
       scene.add(model);
-      await applyTextures();
+      updateMaterials();
     });
 
     const animate = () => {
@@ -75,76 +75,72 @@ function GloveViewer() {
     };
   }, []);
 
-  const applyTextures = async () => {
+  const updateMaterials = async () => {
     if (!modelRef.current) return;
 
-    const zoneMap: Record<string, keyof typeof textZones> = {
-      Fingers: 'Fingers',
-      InnerPalm: 'InnerPalm',
-      OutterPalm: 'OutterPalm',
-      InnerThumb: 'InnerThumb',
-      OutterThumb: 'OutterThumb',
-      Strap: 'Strap',
-      Wrist: 'Wrist',
-      WristOutline: 'WristOutline',
-      Outline: 'Outline',
-    };
-
     modelRef.current.traverse(async (child) => {
-      if (
-        child instanceof THREE.Mesh &&
-        child.material instanceof THREE.MeshStandardMaterial
-      ) {
+      if (child instanceof THREE.Mesh && child.material instanceof THREE.MeshStandardMaterial) {
         const material = child.material;
         const name = child.name;
-        const zone = zoneMap[name];
 
-        // Set color
+        // Apply base colors
         switch (name) {
-          case 'Fingers': material.color.set(glove.fingersColor.hex); break;
-          case 'InnerPalm': material.color.set(glove.innerPalmColor.hex); break;
-          case 'OutterPalm': material.color.set(glove.outerPalmColor.hex); break;
-          case 'InnerThumb': material.color.set(glove.innerThumbColor.hex); break;
-          case 'OutterThumb': material.color.set(glove.outerThumbColor.hex); break;
-          case 'Strap': material.color.set(glove.strapColor.hex); break;
-          case 'Wrist': material.color.set(glove.wristColor.hex); break;
-          case 'WristOutline': material.color.set(glove.wristOutlineColor.hex); break;
-          case 'Outline': material.color.set(glove.outlineColor.hex); break;
+          case 'Fingers':
+            material.color.set(glove.fingersColor.hex);
+            break;
+          case 'InnerPalm':
+            material.color.set(glove.innerPalmColor.hex);
+            break;
+          case 'OutterPalm':
+            material.color.set(glove.outerPalmColor.hex);
+            break;
+          case 'InnerThumb':
+            material.color.set(glove.innerThumbColor.hex);
+            break;
+          case 'OutterThumb':
+            material.color.set(glove.outerThumbColor.hex);
+            break;
+          case 'Strap':
+            material.color.set(glove.strapColor.hex);
+            break;
+          case 'Wrist':
+            material.color.set(glove.wristColor.hex);
+            break;
+          case 'WristOutline':
+            material.color.set(glove.wristOutlineColor.hex);
+            break;
+          case 'Outline':
+            material.color.set(glove.outlineColor.hex);
+            break;
         }
 
-        // Text + Images
-        if (zone) {
-          const text = textZones[zone];
-          const imageData = customImages[zone];
-          const hasText = text && text.text;
-          const hasImage = imageData?.url;
-
-          if (hasText || hasImage) {
-            const texture = await generateTextTexture({
-              text: text.text,
-              font: text.font,
-              size: text.size,
-              textColor: text.color,
-              bgColor: hasImage ? 'transparent' : material.color.getStyle(),
-              x: text.x,
-              y: text.y,
-              rotation: text.rotation,
-              images: hasImage ? [imageData] : [],
-            });
-
-            material.map = texture;
-          } else {
-            material.map = null;
-          }
-
-          material.needsUpdate = true;
+        // Apply textures for text and images
+        const zone = name as keyof typeof textZones;
+        if (textZones[zone] || (customImages[zone] && customImages[zone].length > 0)) {
+          const texture = await generateTextTexture({
+            text: textZones[zone]?.text || '',
+            font: textZones[zone]?.font,
+            size: textZones[zone]?.size,
+            textColor: textZones[zone]?.color,
+            bgColor: material.color.getStyle(),
+            x: textZones[zone]?.x,
+            y: textZones[zone]?.y,
+            rotation: textZones[zone]?.rotation,
+            images: customImages[zone] || []
+          });
+          material.map = texture;
+        } else {
+          material.map = null;
         }
+
+        material.needsUpdate = true;
       }
     });
   };
 
+  // Update materials when glove, text, or images change
   useEffect(() => {
-    applyTextures();
+    updateMaterials();
   }, [glove, textZones, customImages]);
 
   return (
@@ -155,4 +151,4 @@ function GloveViewer() {
   );
 }
 
-export default GloveViewer;
+export default GloveViewer; 
