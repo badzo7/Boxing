@@ -1,16 +1,26 @@
 import { create } from 'zustand';
-import { CustomGlove } from '../types/glove';
+import { CustomGlove, TextSettings, CustomImage, Zone } from './customizationStore';
 
-interface CartItem {
+export interface CartItem {
   id: string;
   glove: CustomGlove;
-  quantity: number;
+  textZones: Record<Zone, TextSettings>;
+  customImages: Record<Zone, CustomImage[]>;
+  image: string;
   price: number;
+  quantity: number;
 }
 
 interface CartStore {
   items: CartItem[];
-  addToCart: (glove: CustomGlove, quantity: number) => void;
+  addToCart: (
+    glove: CustomGlove,
+    textZones: Record<Zone, TextSettings>,
+    customImages: Record<Zone, CustomImage[]>,
+    image: string,
+    price: number,
+    quantity: number
+  ) => void;
   removeFromCart: (id: string) => void;
   updateQuantity: (id: string, quantity: number) => void;
   clearCart: () => void;
@@ -19,59 +29,50 @@ interface CartStore {
 
 export const useCartStore = create<CartStore>((set, get) => ({
   items: [],
-  
-  addToCart: (glove, quantity) => {
+  addToCart: (glove, textZones, customImages, image, price, quantity) => {
+    const id = glove.id;
     set((state) => {
-      const existingItem = state.items.find(
-        (item) => item.id === glove.id
-      );
-      
-      if (existingItem) {
+      const existing = state.items.find((item) => item.id === id);
+      if (existing) {
         return {
           items: state.items.map((item) =>
-            item.id === glove.id
+            item.id === id
               ? { ...item, quantity: item.quantity + quantity }
               : item
           ),
         };
-      } 
-      
+      }
+
       return {
         items: [
           ...state.items,
           {
-            id: glove.id,
+            id,
             glove,
+            textZones,
+            customImages,
+            image,
+            price,
             quantity,
-            price: 90, // Fixed price at $90
           },
         ],
       };
     });
   },
-  
-  removeFromCart: (id) => {
+  removeFromCart: (id) =>
     set((state) => ({
       items: state.items.filter((item) => item.id !== id),
-    }));
-  },
-  
-  updateQuantity: (id, quantity) => {
+    })),
+  updateQuantity: (id, quantity) =>
     set((state) => ({
       items: state.items.map((item) =>
         item.id === id ? { ...item, quantity } : item
       ),
-    }));
-  },
-  
-  clearCart: () => {
-    set({ items: [] });
-  },
-  
-  getTotalPrice: () => {
-    return get().items.reduce(
+    })),
+  clearCart: () => set({ items: [] }),
+  getTotalPrice: () =>
+    get().items.reduce(
       (total, item) => total + item.price * item.quantity,
       0
-    );
-  },
+    ),
 }));
