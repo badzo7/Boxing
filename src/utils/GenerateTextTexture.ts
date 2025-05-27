@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import type { CustomImage } from '../store/customizationStore';
+import type { ImageTransform, CustomImage } from '../store/customizationStore';
 
 interface TextOptions {
   text: string;
@@ -29,13 +29,13 @@ export async function generateTextTexture({
   const ctx = canvas.getContext('2d')!;
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  // 🟡 Don't override background if image exists
-  if (!images.length && bgColor !== 'transparent') {
+  // 🟨 Only apply bgColor if no image (prevents image tinting)
+  if (images.length === 0 && bgColor !== 'transparent') {
     ctx.fillStyle = bgColor;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
   }
 
-  // 🎨 Draw uploaded images
+  // 🖼️ Draw each image
   for (const image of images) {
     const img = await loadImage(image.url);
     const { x, y, scale, rotation } = image.transform;
@@ -47,17 +47,20 @@ export async function generateTextTexture({
     ctx.restore();
   }
 
-  // 📝 Draw text with outline for visibility
+  // ✍️ Draw text on top
   if (text) {
     ctx.save();
     ctx.translate(x, y);
     ctx.rotate((rotation * Math.PI) / 180);
-    ctx.font = `bold ${size}px ${font}`;
+    ctx.font = bold ${size}px ${font};
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
+
+    // Outline for contrast on dark bg
     ctx.lineWidth = 4;
-    ctx.strokeStyle = '#FFFFFF';
+    ctx.strokeStyle = '#FFF';
     ctx.strokeText(text, 0, 0);
+
     ctx.fillStyle = textColor;
     ctx.fillText(text, 0, 0);
     ctx.restore();
