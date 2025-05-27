@@ -5,7 +5,7 @@ interface TextOptions {
   text: string;
   font?: string;
   textColor?: string;
-  bgColor?: string; // Ignored now
+  bgColor?: string;
   x?: number;
   y?: number;
   rotation?: number;
@@ -17,6 +17,7 @@ export async function generateTextTexture({
   text,
   font = 'Arial',
   textColor = '#FFFFFF',
+  bgColor = '#000000',
   x = 256,
   y = 256,
   rotation = 0,
@@ -28,7 +29,14 @@ export async function generateTextTexture({
   const ctx = canvas.getContext('2d')!;
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  // 🖼️ Draw images (on transparent background)
+  // 🟩 Couleur de fond du gant
+  ctx.save();
+  ctx.globalAlpha = 1;
+  ctx.fillStyle = bgColor ?? '#000';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  ctx.restore();
+
+  // 🖼️ Images
   for (const image of images) {
     const img = await loadImage(image.url);
     const { x, y, scale, rotation } = image.transform;
@@ -40,7 +48,7 @@ export async function generateTextTexture({
     ctx.restore();
   }
 
-  // ✍️ Draw text
+  // ✍️ Texte
   if (text) {
     ctx.save();
     ctx.translate(x, y);
@@ -49,7 +57,7 @@ export async function generateTextTexture({
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     ctx.lineWidth = 4;
-    ctx.strokeStyle = '#FFF';
+    ctx.strokeStyle = '#FFFFFF';
     ctx.strokeText(text, 0, 0);
     ctx.fillStyle = textColor;
     ctx.fillText(text, 0, 0);
