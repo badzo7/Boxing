@@ -1,6 +1,5 @@
 import { create } from 'zustand';
 import { CustomGlove } from '../types/glove';
-import { v4 as uuidv4 } from 'uuid';
 
 interface CartItem {
   id: string;
@@ -23,17 +22,30 @@ export const useCartStore = create<CartStore>((set, get) => ({
   
   addToCart: (glove, quantity) => {
     set((state) => {
-      const cartItem: CartItem = {
-        id: uuidv4(),
-        glove: {
-          ...glove, // Preserve all glove properties including colors
-        },
-        quantity,
-        price: 90, // Fixed price at $90
-      };
+      const existingItem = state.items.find(
+        (item) => item.id === glove.id
+      );
+      
+      if (existingItem) {
+        return {
+          items: state.items.map((item) =>
+            item.id === glove.id
+              ? { ...item, quantity: item.quantity + quantity }
+              : item
+          ),
+        };
+      } 
       
       return {
-        items: [...state.items, cartItem],
+        items: [
+          ...state.items,
+          {
+            id: glove.id,
+            glove,
+            quantity,
+            price: 90, // Fixed price at $90
+          },
+        ],
       };
     });
   },

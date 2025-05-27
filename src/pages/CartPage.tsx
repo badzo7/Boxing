@@ -2,7 +2,6 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useCartStore } from '../store/cartStore';
 import { X, MinusCircle, PlusCircle, ShoppingBag, ArrowLeft } from 'lucide-react';
-import OrderSummary from '../components/checkout/OrderSummary';
 
 const CartPage: React.FC = () => {
   const { items, removeFromCart, updateQuantity, getTotalPrice } = useCartStore();
@@ -51,23 +50,20 @@ const CartPage: React.FC = () => {
                 >
                   <div className="col-span-6 flex gap-4">
                     <div className="bg-neutral-700 rounded-lg h-24 w-24 flex items-center justify-center">
+                      {/* Placeholder for glove image */}
                       <div
                         className="h-16 w-16 rounded"
-                        style={{ backgroundColor: item.glove.mainColor.hex }}
+                        style={{ backgroundColor: item.glove.baseColor.hex }}
                       />
                     </div>
                     <div>
                       <h3 className="font-semibold mb-1">Custom Boxing Gloves</h3>
                       <ul className="text-sm text-neutral-400 space-y-1">
                         <li>Size: {item.glove.size}</li>
+                        <li>Color: {item.glove.baseColor.name}</li>
                         <li>Material: {item.glove.material.name}</li>
-                        <li>Main Color: {item.glove.mainColor.name}</li>
-                        <li>Trim Color: {item.glove.trimColor.name}</li>
-                        {item.glove.customTexts.length > 0 && (
-                          <li>Custom Text Added</li>
-                        )}
-                        {item.glove.customImages.length > 0 && (
-                          <li>Custom Images Added</li>
+                        {item.glove.customText && (
+                          <li>Text: {item.glove.customText}</li>
                         )}
                       </ul>
                     </div>
