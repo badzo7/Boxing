@@ -149,6 +149,7 @@ const CustomizerPage: React.FC = () => {
           </TabsContent>
         </Tabs>
 
+        {/* Fixed Add to Cart Button */}
         <div className="fixed bottom-0 left-0 right-0 lg:absolute lg:bottom-6 lg:left-6 lg:right-6 p-4 lg:p-0 bg-neutral-900 border-t lg:border-0 border-neutral-800">
           <button
             onClick={handleAddToCart}
