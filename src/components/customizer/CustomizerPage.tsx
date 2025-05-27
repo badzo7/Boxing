@@ -9,7 +9,8 @@ import ImageUploader from './ImageUploader';
 import GloveCustomizer from './GloveCustomizer';
 import { useCustomizationStore } from '../../store/customizationStore';
 import { useCartStore } from '../../store/cartStore';
-import { ShoppingCart } from 'lucide-react';
+import { ShoppingCart, Check } from 'lucide-react';
+import OrderSummary from '../checkout/OrderSummary';
 
 const CustomizerPage: React.FC = () => {
   const navigate = useNavigate();
@@ -47,6 +48,10 @@ const CustomizerPage: React.FC = () => {
             <TabsTrigger value="size">Size</TabsTrigger>
             <TabsTrigger value="custom">Custom Text</TabsTrigger>
             <TabsTrigger value="image">Image</TabsTrigger>
+            <TabsTrigger value="cart">
+              <ShoppingCart className="h-4 w-4 mr-1" />
+              Cart
+            </TabsTrigger>
           </TabsList>
 
           <TabsContent value="colors">
@@ -67,6 +72,80 @@ const CustomizerPage: React.FC = () => {
 
           <TabsContent value="image">
             <ImageUploader />
+          </TabsContent>
+
+          <TabsContent value="cart">
+            <div className="space-y-6">
+              <div className="bg-neutral-800 rounded-xl p-6">
+                <h3 className="text-lg font-semibold mb-4">Order Summary</h3>
+                <OrderSummary order={{
+                  id: 'preview',
+                  createdAt: new Date().toISOString(),
+                  gloveConfiguration: {
+                    fingersColor: { name: glove.fingersColor.name, hex: glove.fingersColor.hex },
+                    innerPalmColor: { name: glove.innerPalmColor.name, hex: glove.innerPalmColor.hex },
+                    outerPalmColor: { name: glove.outerPalmColor.name, hex: glove.outerPalmColor.hex },
+                    innerThumbColor: { name: glove.innerThumbColor.name, hex: glove.innerThumbColor.hex },
+                    outerThumbColor: { name: glove.outerThumbColor.name, hex: glove.outerThumbColor.hex },
+                    strapColor: { name: glove.strapColor.name, hex: glove.strapColor.hex },
+                    wristColor: { name: glove.wristColor.name, hex: glove.wristColor.hex },
+                    wristOutlineColor: { name: glove.wristOutlineColor.name, hex: glove.wristOutlineColor.hex },
+                    outlineColor: { name: glove.outlineColor.name, hex: glove.outlineColor.hex },
+                    material: glove.material,
+                    size: glove.size,
+                    textElements: [],
+                    imageElements: []
+                  },
+                  customerDetails: {
+                    id: 'preview',
+                    name: '',
+                    email: '',
+                    shippingAddress: {
+                      street: '',
+                      city: '',
+                      state: '',
+                      postalCode: '',
+                      country: ''
+                    }
+                  },
+                  manufacturingInstructions: '',
+                  qualityChecklist: [],
+                  status: 'pending',
+                  statusHistory: [],
+                  pricing: {
+                    basePrice: 90,
+                    colorUpcharges: 0,
+                    materialUpcharge: 0,
+                    customizationCharges: 0,
+                    subtotal: 90,
+                    tax: 7.20,
+                    shipping: 15.99,
+                    total: 113.19
+                  }
+                }} />
+              </div>
+
+              <button
+                onClick={handleAddToCart}
+                className="w-full btn btn-primary py-4 text-lg font-semibold flex items-center justify-center gap-2"
+              >
+                <ShoppingCart className="h-5 w-5" />
+                Add to Cart - $90.00
+              </button>
+
+              <div className="bg-navy/30 rounded-lg border border-gold/20 p-4">
+                <h4 className="font-semibold mb-2 flex items-center gap-2">
+                  <Check className="h-4 w-4 text-gold" />
+                  Satisfaction Guaranteed
+                </h4>
+                <ul className="text-sm text-neutral-400 space-y-1">
+                  <li>• 30-day money-back guarantee</li>
+                  <li>• Free shipping on orders over $150</li>
+                  <li>• Expert craftsmanship</li>
+                  <li>• Premium materials</li>
+                </ul>
+              </div>
+            </div>
           </TabsContent>
         </Tabs>
 
