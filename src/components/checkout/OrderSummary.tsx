@@ -125,7 +125,7 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({ order }) => {
           <h3 className="font-semibold">Order Status</h3>
           <span className="text-sm px-2 py-1 bg-gold/20 text-gold rounded-full">
             {order.status.charAt(0).toUpperCase() + order.status.slice(1)}
-          </span>
+          </span> 
         </div>
         <div className="space-y-2">
           {order.statusHistory.map((status, index) => (
