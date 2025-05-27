@@ -29,14 +29,14 @@ export async function generateTextTexture({
   const ctx = canvas.getContext('2d')!;
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  // 🟩 Couleur de fond du gant
+  // Background color
   ctx.save();
   ctx.globalAlpha = 1;
   ctx.fillStyle = bgColor ?? '#000';
   ctx.fillRect(0, 0, canvas.width, canvas.height);
   ctx.restore();
 
-  // 🖼️ Images
+  // Images
   for (const image of images) {
     const img = await loadImage(image.url);
     const { x, y, scale, rotation } = image.transform;
@@ -48,7 +48,7 @@ export async function generateTextTexture({
     ctx.restore();
   }
 
-  // ✍️ Texte
+  // Text
   if (text) {
     ctx.save();
     ctx.translate(x, y);
