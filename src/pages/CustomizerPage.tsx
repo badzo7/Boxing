@@ -34,9 +34,9 @@ export default function CustomizerPage() {
           </TabsContent>
 
           <TabsContent value="size"> 
-            <SizeSelector />
+            <div className="text-neutral-400">Size options coming soon</div>
           </TabsContent>
-
+ 
           <TabsContent value="text">
             <TextCustomization />
           </TabsContent>
