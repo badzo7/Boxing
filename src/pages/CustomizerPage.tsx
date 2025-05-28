@@ -2,7 +2,8 @@ import React from 'react';
 import GloveViewer from '../components/GloveViewer';
 import ColorSelector from '../components/customizer/ColorSelector';
 import TextCustomization from '../components/customizer/TextCustomization';
-import ImageUploader from '../components/customizer/ImageUploader'; // ✅ Add this
+import ImageUploader from '../components/customizer/ImageUploader';
+import SizeSelector from '../components/customizer/SizeSelector'; // ✅ Ajout essentiel
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '../components/ui/Tabs';
 
 export default function CustomizerPage() {
@@ -22,7 +23,7 @@ export default function CustomizerPage() {
             <TabsTrigger value="materials">Materials</TabsTrigger>
             <TabsTrigger value="size">Size</TabsTrigger>
             <TabsTrigger value="text">Custom Text</TabsTrigger>
-            <TabsTrigger value="images">Custom Image</TabsTrigger> {/* ✅ Ensure it's here */} 
+            <TabsTrigger value="images">Custom Image</TabsTrigger>
           </TabsList>
 
           <TabsContent value="colors">
@@ -33,16 +34,16 @@ export default function CustomizerPage() {
             <div className="text-neutral-400">Materials options coming soon</div>
           </TabsContent>
 
-          <TabsContent value="size"> 
-            <div className="text-neutral-400">Size options coming soon</div>
+          <TabsContent value="size">
+            <SizeSelector /> {/* ✅ FIX ajouté ici */}
           </TabsContent>
- 
+
           <TabsContent value="text">
             <TextCustomization />
           </TabsContent>
 
           <TabsContent value="images">
-            <ImageUploader /> {/* ✅ This renders your uploader */}
+            <ImageUploader />
           </TabsContent>
         </Tabs>
       </div>
