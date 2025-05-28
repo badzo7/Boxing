@@ -92,6 +92,7 @@ interface CustomizationState {
   textZones: Record<Zone, TextSettings>;
   customImages: Record<Zone, CustomImage[]>;
   updateColor: (part: string, color: GloveColor) => void;
+  updateSize: (size: string) => void;
   updateTextZone: (zone: Zone, updates: Partial<TextSettings>) => void;
   addCustomImage: (zone: Zone, url: string) => void;
   removeCustomImage: (zone: Zone, imageId: string) => void;
@@ -197,6 +198,15 @@ export const useCustomizationStore = create<CustomizationState>((set, get) => ({
     });
   },
 
+  updateSize: (size) => {
+    set((state) => ({
+      glove: {
+        ...state.glove,
+        size,
+      },
+    }));
+  },
+
   updateTextZone: (zone, updates) => {
     set((state) => {
       const updatedZones = {
@@ -207,7 +217,6 @@ export const useCustomizationStore = create<CustomizationState>((set, get) => ({
         }
       };
 
-      // If updating Strap, also update WristOutline
       if (zone === 'Strap') {
         updatedZones.WristOutline = {
           ...state.textZones.WristOutline,
@@ -232,7 +241,6 @@ export const useCustomizationStore = create<CustomizationState>((set, get) => ({
         [zone]: [...state.customImages[zone], newImage]
       };
 
-      // If adding to Strap, also add to WristOutline
       if (zone === 'Strap') {
         updatedImages.WristOutline = [...state.customImages.WristOutline, newImage];
       }
@@ -248,7 +256,6 @@ export const useCustomizationStore = create<CustomizationState>((set, get) => ({
         [zone]: state.customImages[zone].filter(img => img.id !== imageId)
       };
 
-      // If removing from Strap, also remove from WristOutline
       if (zone === 'Strap') {
         updatedImages.WristOutline = state.customImages.WristOutline.filter(img => img.id !== imageId);
       }
@@ -266,7 +273,6 @@ export const useCustomizationStore = create<CustomizationState>((set, get) => ({
         )
       };
 
-      // If updating Strap, also update WristOutline
       if (zone === 'Strap') {
         updatedImages.WristOutline = state.customImages.WristOutline.map(img =>
           img.id === imageId ? { ...img, transform } : img
@@ -295,7 +301,6 @@ export const useCustomizationStore = create<CustomizationState>((set, get) => ({
     const { glove } = get();
     let total = glove.basePrice;
 
-    // Add color costs
     total += glove.palmColor.price;
     total += glove.thumbColor.price;
     total += glove.mainColor.price;
@@ -311,15 +316,12 @@ export const useCustomizationStore = create<CustomizationState>((set, get) => ({
     total += glove.wristOutlineColor.price;
     total += glove.outlineColor.price;
 
-    // Add material and pattern costs
     total += glove.material.price;
     total += glove.pattern.price;
     total += glove.trim.price;
 
-    // Add customization costs
     total += glove.customTexts.length * 4.99;
-    
-    // Calculate total images across all zones (excluding WristOutline since it mirrors Strap)
+
     const totalImages = Object.entries(get().customImages)
       .filter(([zone]) => zone !== 'WristOutline')
       .reduce((sum, [, zoneImages]) => sum + zoneImages.length, 0);
