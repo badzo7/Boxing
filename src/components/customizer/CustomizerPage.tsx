@@ -2,7 +2,6 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '../ui/Tabs';
 import ColorSelector from './ColorSelector';
-import MaterialSelector from './MaterialSelector';
 import SizeSelector from './SizeSelector';
 import CustomPlacement from './CustomPlacement';
 import ImageUploader from './ImageUploader';
@@ -51,7 +50,6 @@ const CustomizerPage: React.FC = () => {
           <TabsList className="flex justify-between items-center mb-4">
             <div className="flex gap-2">
               <TabsTrigger value="colors">Colors</TabsTrigger>
-              <TabsTrigger value="material">Materials</TabsTrigger>
               <TabsTrigger value="size">Size</TabsTrigger>
               <TabsTrigger value="custom">Custom Text</TabsTrigger>
               <TabsTrigger value="image">Image</TabsTrigger>
@@ -68,10 +66,6 @@ const CustomizerPage: React.FC = () => {
 
           <TabsContent value="colors">
             <ColorSelector />
-          </TabsContent>
-
-          <TabsContent value="material">
-            <MaterialSelector />
           </TabsContent>
 
           <TabsContent value="size">
