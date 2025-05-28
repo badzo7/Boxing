@@ -3,7 +3,7 @@ import GloveViewer from '../components/GloveViewer';
 import ColorSelector from '../components/customizer/ColorSelector';
 import TextCustomization from '../components/customizer/TextCustomization';
 import ImageUploader from '../components/customizer/ImageUploader';
-import SizeSelector from '../components/customizer/SizeSelector'; // ✅ Ajout essentiel
+import SizeSelector from '../components/customizer/SizeSelector';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '../components/ui/Tabs';
 
 export default function CustomizerPage() {
@@ -31,11 +31,24 @@ export default function CustomizerPage() {
           </TabsContent>
 
           <TabsContent value="materials">
-            <div className="text-neutral-400">Materials options coming soon</div>
+            <div className="space-y-4 text-neutral-300">
+              <h4 className="text-xl font-semibold text-white">How Our Gloves Are Made</h4>
+              <p>
+                Our gloves are crafted from premium-grade leather, carefully selected for durability, flexibility,
+                and comfort. Each glove is hand-cut and expertly stitched to ensure a perfect anatomical fit and long-lasting performance.
+              </p>
+              <p>
+                Inside, the gloves are lined with breathable moisture-wicking fabric to keep your hands cool and dry. 
+                Multi-layered high-density foam provides unmatched shock absorption while protecting your knuckles and wrists.
+              </p>
+              <p>
+                Combining traditional craftsmanship with cutting-edge design, our gloves are battle-tested and built to perform — in the gym, in the ring, and beyond.
+              </p>
+            </div>
           </TabsContent>
 
           <TabsContent value="size">
-            <SizeSelector /> {/* ✅ FIX ajouté ici */}
+            <SizeSelector />
           </TabsContent>
 
           <TabsContent value="text">
