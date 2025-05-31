@@ -56,7 +56,19 @@ export default function CustomizerPage() {
 
     const item = {
       id: crypto.randomUUID(),
-      glove, // ✅ Garde l’objet glove complet
+      glove: {
+        size: glove.size || '12oz',
+        fingersColor: glove.fingersColor || { name: 'Default', hex: '#000', price: 0 },
+        outerPalmColor: glove.outerPalmColor || { name: 'Default', hex: '#000', price: 0 },
+        innerPalmColor: glove.innerPalmColor || { name: 'Default', hex: '#000', price: 0 },
+        innerThumbColor: glove.innerThumbColor || { name: 'Default', hex: '#000', price: 0 },
+        outerThumbColor: glove.outerThumbColor || { name: 'Default', hex: '#000', price: 0 },
+        strapColor: glove.strapColor || { name: 'Default', hex: '#000', price: 0 },
+        wristColor: glove.wristColor || { name: 'Default', hex: '#000', price: 0 },
+        wristOutlineColor: glove.wristOutlineColor || { name: 'Default', hex: '#000', price: 0 },
+        outlineColor: glove.outlineColor || { name: 'Default', hex: '#000', price: 0 },
+        material: glove.material || { name: 'Standard', description: 'Default Material', price: 0 },
+      },
       textZones,
       customImages,
       price: Number(calculatePrice()),
@@ -70,13 +82,10 @@ export default function CustomizerPage() {
 
   return (
     <div className="flex flex-col lg:flex-row w-full h-screen pt-20 overflow-hidden">
-
-      {/* 🥊 3D Viewer on the left */}
       <div className="w-full lg:w-1/2 h-1/2 lg:h-full bg-neutral-900">
         <GloveViewer />
       </div>
 
-      {/* 🎨 Customization Panel on the right */}
       <div className="w-full lg:w-1/2 h-1/2 lg:h-full overflow-y-auto px-6 py-8 bg-neutral-950 border-l border-neutral-800">
         <Tabs defaultValue="colors" className="w-full">
           <TabsList className="flex gap-2 mb-6 flex-wrap">
@@ -121,7 +130,6 @@ export default function CustomizerPage() {
           </TabsContent>
         </Tabs>
 
-        {/* ✅ Buttons at the bottom */}
         <div className="mt-8 space-y-4">
           <button 
             onClick={handleAddToCart}
