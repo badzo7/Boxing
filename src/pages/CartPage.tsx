@@ -5,7 +5,7 @@ import { X, MinusCircle, PlusCircle, ShoppingBag, ArrowLeft } from 'lucide-react
 
 const CartPage: React.FC = () => {
   const { items, removeFromCart, updateQuantity, getTotalPrice } = useCartStore();
-  
+
   if (items.length === 0) {
     return (
       <div className="pt-24 pb-16 container-custom">
@@ -15,7 +15,6 @@ const CartPage: React.FC = () => {
           <p className="text-neutral-400 mb-8 max-w-md">
             Looks like you haven't added any custom gloves to your cart yet.
           </p>
-
           <button 
             onClick={() => window.location.href = "/customize"}
             className="bg-yellow-500 hover:bg-yellow-400 text-black font-semibold py-3 px-6 rounded-lg text-lg transition"
@@ -53,7 +52,6 @@ const CartPage: React.FC = () => {
                   className="grid grid-cols-12 items-center py-6 border-b border-neutral-700"
                 >
                   <div className="col-span-6 flex gap-4">
-                    {/* ✅ Aperçu gant avec gradient de couleurs */}
                     <div className="bg-neutral-700 rounded-lg h-24 w-24 flex items-center justify-center overflow-hidden">
                       <div
                         className="h-16 w-16 rounded shadow-inner border border-white"
@@ -78,7 +76,7 @@ const CartPage: React.FC = () => {
                   </div>
 
                   <div className="col-span-2 text-center">
-                    ${item.price.toFixed(2)}
+                    ${Number(item.price || 0).toFixed(2)}
                   </div>
 
                   <div className="col-span-2 flex items-center justify-center gap-2">
@@ -98,7 +96,7 @@ const CartPage: React.FC = () => {
                   </div>
 
                   <div className="col-span-2 text-right flex items-center justify-end gap-4">
-                    <span>${(item.price * item.quantity).toFixed(2)}</span>
+                    <span>${(Number(item.price || 0) * Number(item.quantity || 1)).toFixed(2)}</span>
                     <button
                       onClick={() => removeFromCart(item.id)}
                       className="text-neutral-500 hover:text-red-500 transition-colors"
@@ -121,7 +119,7 @@ const CartPage: React.FC = () => {
             <div className="space-y-3 mb-6">
               <div className="flex justify-between">
                 <span className="text-neutral-400">Subtotal</span>
-                <span>${getTotalPrice().toFixed(2)}</span>
+                <span>${Number(getTotalPrice() || 0).toFixed(2)}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-neutral-400">Shipping</span>
@@ -136,7 +134,7 @@ const CartPage: React.FC = () => {
             <div className="border-t border-neutral-700 pt-4 mb-6">
               <div className="flex justify-between font-bold">
                 <span>Total</span>
-                <span>${getTotalPrice().toFixed(2)}</span>
+                <span>${Number(getTotalPrice() || 0).toFixed(2)}</span>
               </div>
             </div>
 
