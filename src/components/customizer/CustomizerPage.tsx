@@ -5,7 +5,6 @@ import TextCustomization from '../components/customizer/TextCustomization';
 import ImageUploader from '../components/customizer/ImageUploader';
 import SizeSelector from '../components/customizer/SizeSelector';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '../components/ui/Tabs';
-import { Button } from '@/components/ui/button';
 import { useCustomizationStore } from '../store/customizationStore';
 
 export default function CustomizerPage() {
@@ -101,10 +100,15 @@ export default function CustomizerPage() {
           </TabsContent>
         </Tabs>
 
-        {/* ✅ Buy Button */}
-        <Button className="mt-8 w-full" onClick={handleBuy}>
-          Acheter maintenant
-        </Button>
+        {/* ✅ Buy Button - visible en permanence */}
+        <div className="mt-8">
+          <button 
+            onClick={handleBuy}
+            className="w-full bg-yellow-500 hover:bg-yellow-400 text-black py-3 rounded-lg font-bold text-lg transition"
+          >
+            Acheter maintenant
+          </button>
+        </div>
       </div>
     </div>
   );
