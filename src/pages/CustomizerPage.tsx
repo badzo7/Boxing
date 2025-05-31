@@ -1,12 +1,73 @@
 import React from 'react'; 
+import { useNavigate } from 'react-router-dom';
 import GloveViewer from '../components/GloveViewer';
 import ColorSelector from '../components/customizer/ColorSelector';
 import TextCustomization from '../components/customizer/TextCustomization';
 import ImageUploader from '../components/customizer/ImageUploader';
 import SizeSelector from '../components/customizer/SizeSelector';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '../components/ui/Tabs';
+import { useCustomizationStore } from '../store/customizationStore';
+import { useCartStore } from '../store/cartStore';
 
 export default function CustomizerPage() {
+  const { addToCart } = useCartStore();
+  const navigate = useNavigate();
+
+  const handleBuy = async () => {
+    const { glove, textZones, customImages } = useCustomizationStore.getState();
+
+    const orderData = {
+      colors: {
+        fingers: glove.fingersColor,
+        innerPalm: glove.innerPalmColor,
+        outerPalm: glove.outerPalmColor,
+        innerThumb: glove.innerThumbColor,
+        outerThumb: glove.outerThumbColor,
+        strap: glove.strapColor,
+        wrist: glove.wristColor,
+        wristOutline: glove.wristOutlineColor,
+        outline: glove.outlineColor,
+      },
+      size: glove.size,
+      texts: textZones,
+      images: customImages,
+    };
+
+    try {
+      const res = await fetch('https://ton-backend.com/api/orders', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(orderData),
+      });
+
+      if (res.ok) {
+        alert('✅ Commande envoyée avec succès !');
+      } else {
+        alert('❌ Erreur lors de l’envoi de la commande.');
+      }
+    } catch (err) {
+      console.error(err);
+      alert('❌ Erreur réseau.');
+    }
+  };
+
+  const handleAddToCart = () => {
+    const { glove, textZones, customImages } = useCustomizationStore.getState();
+
+    const item = {
+      id: crypto.randomUUID(),
+      glove,
+      textZones,
+      customImages,
+      price: 149.99,
+      quantity: 1,
+    };
+
+    addToCart(item);
+    alert('✅ Gant ajouté au panier !');
+    navigate('/cart');
+  };
+
   return (
     <div className="flex flex-col lg:flex-row w-full h-screen pt-20 overflow-hidden">
 
@@ -24,7 +85,6 @@ export default function CustomizerPage() {
             <TabsTrigger value="size">Size</TabsTrigger>
             <TabsTrigger value="text">Custom Text</TabsTrigger>
             <TabsTrigger value="images">Custom Image</TabsTrigger>
-            <TabsTrigger value="add to cart">add to cart</TabsTrigger>
           </TabsList>
 
           <TabsContent value="colors">
@@ -43,7 +103,7 @@ export default function CustomizerPage() {
                 Multi-layered high-density foam provides unmatched shock absorption while protecting your knuckles and wrists.
               </p>
               <p>
-                Combining traditional craftsmanship with cutting-edge design, our gloves are battle-tested and built to perform — in the gym, in the ring, and beyond.
+                Combining traditional craftsmanship with cutting-edge design, our gloves are battle-tested and built to perform.
               </p>
             </div>
           </TabsContent>
@@ -60,6 +120,23 @@ export default function CustomizerPage() {
             <ImageUploader />
           </TabsContent>
         </Tabs>
+
+        {/* ✅ Boutons visibles tout le temps */}
+        <div className="mt-8 space-y-4">
+          <button 
+            onClick={handleAddToCart}
+            className="w-full bg-yellow-500 hover:bg-yellow-400 text-black py-3 rounded-lg font-bold text-lg transition"
+          >
+            Ajouter au panier
+          </button>
+
+          <button 
+            onClick={handleBuy}
+            className="w-full bg-green-600 hover:bg-green-500 text-white py-3 rounded-lg font-bold text-lg transition"
+          >
+            Commander maintenant
+          </button>
+        </div>
       </div>
     </div>
   );
