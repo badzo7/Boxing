@@ -24,7 +24,7 @@ export default function CustomizerPage() {
             <TabsTrigger value="size">Size</TabsTrigger>
             <TabsTrigger value="text">Custom Text</TabsTrigger>
             <TabsTrigger value="images">Custom Image</TabsTrigger>
-            <TabsTrigger value="add to cart">Custom Image</TabsTrigger>
+            <TabsTrigger value="add to cart">add to cart</TabsTrigger>
           </TabsList>
 
           <TabsContent value="colors">
