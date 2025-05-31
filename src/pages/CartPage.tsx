@@ -16,7 +16,6 @@ const CartPage: React.FC = () => {
             Looks like you haven't added any custom gloves to your cart yet.
           </p>
 
-          {/* ✅ Nouveau bouton "Acheter maintenant" */}
           <button 
             onClick={() => window.location.href = "/customize"}
             className="bg-yellow-500 hover:bg-yellow-400 text-black font-semibold py-3 px-6 rounded-lg text-lg transition"
@@ -27,7 +26,7 @@ const CartPage: React.FC = () => {
       </div>
     );
   }
-  
+
   return (
     <div className="pt-24 pb-16 container-custom">
       <div className="flex items-center justify-between mb-8">
@@ -36,7 +35,7 @@ const CartPage: React.FC = () => {
           <ArrowLeft className="h-4 w-4" /> Continue Shopping
         </Link>
       </div>
-      
+
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2">
           <div className="bg-neutral-800 rounded-xl overflow-hidden">
@@ -47,37 +46,41 @@ const CartPage: React.FC = () => {
                 <div className="col-span-2 text-center">Quantity</div>
                 <div className="col-span-2 text-right">Total</div>
               </div>
-              
+
               {items.map((item) => (
                 <div 
                   key={item.id} 
                   className="grid grid-cols-12 items-center py-6 border-b border-neutral-700"
                 >
                   <div className="col-span-6 flex gap-4">
-                    <div className="bg-neutral-700 rounded-lg h-24 w-24 flex items-center justify-center">
-                      {/* Placeholder for glove image */}
+                    {/* ✅ Aperçu gant avec gradient de couleurs */}
+                    <div className="bg-neutral-700 rounded-lg h-24 w-24 flex items-center justify-center overflow-hidden">
                       <div
-                        className="h-16 w-16 rounded"
-                        style={{ backgroundColor: item.glove.baseColor.hex }}
+                        className="h-16 w-16 rounded shadow-inner border border-white"
+                        style={{
+                          background: `linear-gradient(135deg, ${item.glove.fingersColor?.hex || '#111'}, ${item.glove.outerPalmColor?.hex || '#333'})`
+                        }}
+                        title="Glove preview"
                       />
                     </div>
+
                     <div>
                       <h3 className="font-semibold mb-1">Custom Boxing Gloves</h3>
                       <ul className="text-sm text-neutral-400 space-y-1">
                         <li>Size: {item.glove.size}</li>
-                        <li>Color: {item.glove.baseColor.name}</li>
-                        <li>Material: {item.glove.material.name}</li>
-                        {item.glove.customText && (
-                          <li>Text: {item.glove.customText}</li>
-                        )}
+                        <li>Fingers: {item.glove.fingersColor?.name}</li>
+                        <li>Outer Palm: {item.glove.outerPalmColor?.name}</li>
+                        <li>Inner Palm: {item.glove.innerPalmColor?.name}</li>
+                        <li>Strap: {item.glove.strapColor?.name}</li>
+                        <li>Wrist: {item.glove.wristColor?.name}</li>
                       </ul>
                     </div>
                   </div>
-                  
+
                   <div className="col-span-2 text-center">
                     ${item.price.toFixed(2)}
                   </div>
-                  
+
                   <div className="col-span-2 flex items-center justify-center gap-2">
                     <button
                       onClick={() => updateQuantity(item.id, Math.max(1, item.quantity - 1))}
@@ -93,7 +96,7 @@ const CartPage: React.FC = () => {
                       <PlusCircle className="h-4 w-4" />
                     </button>
                   </div>
-                  
+
                   <div className="col-span-2 text-right flex items-center justify-end gap-4">
                     <span>${(item.price * item.quantity).toFixed(2)}</span>
                     <button
@@ -106,14 +109,15 @@ const CartPage: React.FC = () => {
                   </div>
                 </div>
               ))}
+
             </div>
           </div>
         </div>
-        
+
         <div>
           <div className="bg-neutral-800 rounded-xl p-6">
             <h2 className="text-xl font-bold mb-4">Order Summary</h2>
-            
+
             <div className="space-y-3 mb-6">
               <div className="flex justify-between">
                 <span className="text-neutral-400">Subtotal</span>
@@ -128,18 +132,18 @@ const CartPage: React.FC = () => {
                 <span>Calculated at checkout</span>
               </div>
             </div>
-            
+
             <div className="border-t border-neutral-700 pt-4 mb-6">
               <div className="flex justify-between font-bold">
                 <span>Total</span>
                 <span>${getTotalPrice().toFixed(2)}</span>
               </div>
             </div>
-            
+
             <button className="btn btn-primary w-full py-3">
               Proceed to Checkout
             </button>
-            
+
             <div className="mt-6 text-sm text-neutral-400 text-center">
               <p>Free shipping on all orders over $150</p>
               <p className="mt-2">30-day satisfaction guarantee</p>
