@@ -49,7 +49,7 @@ const CartPage: React.FC = () => {
               {items.map((item) => (
                 <div 
                   key={item.id} 
-                  className="grid grid-cols-12 items-start py-6 border-b border-neutral-700"
+                  className="grid grid-cols-12 items-center py-6 border-b border-neutral-700"
                 >
                   <div className="col-span-6 flex gap-4">
                     <div className="bg-neutral-700 rounded-lg h-24 w-24 flex items-center justify-center overflow-hidden">
@@ -72,48 +72,6 @@ const CartPage: React.FC = () => {
                         <li>Strap: {item.glove?.strapColor?.name || '—'}</li>
                         <li>Wrist: {item.glove?.wristColor?.name || '—'}</li>
                       </ul>
-
-                      {/* ✅ Texts */}
-                      {item.textZones && (
-                        <div className="mt-2 text-xs text-neutral-400">
-                          <p className="font-medium">Texts:</p>
-                          <ul className="list-disc ml-4 space-y-1">
-                            {Object.entries(item.textZones).map(([zone, text]) =>
-                              text?.text ? (
-                                <li key={zone}>
-                                  {zone}: "{text.text}" (color: {text.color}, size: {text.size})
-                                </li>
-                              ) : null
-                            )}
-                          </ul>
-                        </div>
-                      )}
-
-                      {/* ✅ Images */}
-                      {item.customImages && (
-                        <div className="mt-2 text-xs text-neutral-400">
-                          <p className="font-medium">Images:</p>
-                          <ul className="list-disc ml-4 space-y-1">
-                            {Object.entries(item.customImages).map(([zone, images]) =>
-                              images.length > 0 ? (
-                                <li key={zone}>
-                                  {zone}:
-                                  <div className="flex gap-2 mt-1">
-                                    {images.map((img) => (
-                                      <img
-                                        key={img.id}
-                                        src={img.url}
-                                        alt={`custom ${zone}`}
-                                        className="h-8 w-8 object-cover rounded border"
-                                      />
-                                    ))}
-                                  </div>
-                                </li>
-                              ) : null
-                            )}
-                          </ul>
-                        </div>
-                      )}
                     </div>
                   </div>
 
@@ -196,3 +154,4 @@ const CartPage: React.FC = () => {
 };
 
 export default CartPage;
+ 
