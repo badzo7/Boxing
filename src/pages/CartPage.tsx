@@ -15,9 +15,14 @@ const CartPage: React.FC = () => {
           <p className="text-neutral-400 mb-8 max-w-md">
             Looks like you haven't added any custom gloves to your cart yet.
           </p>
-          <Link to="/customize" className="btn btn-primary">
-            Start Designing
-          </Link>
+
+          {/* ✅ Nouveau bouton "Acheter maintenant" */}
+          <button 
+            onClick={() => window.location.href = "/customize"}
+            className="bg-yellow-500 hover:bg-yellow-400 text-black font-semibold py-3 px-6 rounded-lg text-lg transition"
+          >
+            Acheter maintenant
+          </button>
         </div>
       </div>
     );
