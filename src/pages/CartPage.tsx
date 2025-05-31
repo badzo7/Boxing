@@ -56,7 +56,7 @@ const CartPage: React.FC = () => {
                       <div
                         className="h-16 w-16 rounded shadow-inner border border-white"
                         style={{
-                          background: `linear-gradient(135deg, ${item.glove.fingersColor?.hex || '#111'}, ${item.glove.outerPalmColor?.hex || '#333'})`
+                          background: `linear-gradient(135deg, ${item.glove?.fingersColor?.hex || '#111'}, ${item.glove?.outerPalmColor?.hex || '#333'})`
                         }}
                         title="Glove preview"
                       />
@@ -65,12 +65,12 @@ const CartPage: React.FC = () => {
                     <div>
                       <h3 className="font-semibold mb-1">Custom Boxing Gloves</h3>
                       <ul className="text-sm text-neutral-400 space-y-1">
-                        <li>Size: {item.glove.size}</li>
-                        <li>Fingers: {item.glove.fingersColor?.name}</li>
-                        <li>Outer Palm: {item.glove.outerPalmColor?.name}</li>
-                        <li>Inner Palm: {item.glove.innerPalmColor?.name}</li>
-                        <li>Strap: {item.glove.strapColor?.name}</li>
-                        <li>Wrist: {item.glove.wristColor?.name}</li>
+                        <li>Size: {item.glove?.size || '—'}</li>
+                        <li>Fingers: {item.glove?.fingersColor?.name || '—'}</li>
+                        <li>Outer Palm: {item.glove?.outerPalmColor?.name || '—'}</li>
+                        <li>Inner Palm: {item.glove?.innerPalmColor?.name || '—'}</li>
+                        <li>Strap: {item.glove?.strapColor?.name || '—'}</li>
+                        <li>Wrist: {item.glove?.wristColor?.name || '—'}</li>
                       </ul>
                     </div>
                   </div>
@@ -153,5 +153,4 @@ const CartPage: React.FC = () => {
   );
 };
 
-export default CartPage; 
- 
+export default CartPage;
