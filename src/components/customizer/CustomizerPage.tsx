@@ -1,4 +1,4 @@
-import React from 'react'; 
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import GloveViewer from '../components/GloveViewer';
 import ColorSelector from '../components/customizer/ColorSelector';
@@ -29,6 +29,7 @@ export default function CustomizerPage() {
         outline: glove.outlineColor,
       },
       size: glove.size,
+      material: glove.material?.name || '',
       texts: textZones,
       images: customImages,
     };
@@ -54,30 +55,50 @@ export default function CustomizerPage() {
   const handleAddToCart = () => {
     const { glove, textZones, customImages } = useCustomizationStore.getState();
 
+    const formattedGlove = {
+      id: crypto.randomUUID(),
+      size: glove.size || '12oz',
+      fingersColor: glove.fingersColor,
+      outerPalmColor: glove.outerPalmColor,
+      innerPalmColor: glove.innerPalmColor,
+      innerThumbColor: glove.innerThumbColor,
+      outerThumbColor: glove.outerThumbColor,
+      strapColor: glove.strapColor,
+      wristColor: glove.wristColor,
+      wristOutlineColor: glove.wristOutlineColor,
+      outlineColor: glove.outlineColor,
+      material: glove.material,
+    };
+
     const item = {
       id: crypto.randomUUID(),
-      glove,
+      glove: formattedGlove,
       textZones,
       customImages,
+      image: '', // Optionnel: ajouter une capture si tu veux
       price: 149.99,
       quantity: 1,
     };
 
-    addToCart(item);
-    console.log('✅ Gant ajouté au panier :', item);
+    addToCart(
+      item.glove,
+      item.textZones,
+      item.customImages,
+      item.image,
+      item.price,
+      item.quantity
+    );
+
     alert('✅ Gant ajouté au panier !');
-    navigate('/cart'); // Redirection automatique vers le panier
+    navigate('/cart');
   };
 
   return (
     <div className="flex flex-col lg:flex-row w-full h-screen pt-20 overflow-hidden">
-
-      {/* 🥊 3D Viewer on the left */}
       <div className="w-full lg:w-1/2 h-1/2 lg:h-full bg-neutral-900">
         <GloveViewer />
       </div>
 
-      {/* 🎨 Customization Panel on the right */}
       <div className="w-full lg:w-1/2 h-1/2 lg:h-full overflow-y-auto px-6 py-8 bg-neutral-950 border-l border-neutral-800">
         <Tabs defaultValue="colors" className="w-full">
           <TabsList className="flex gap-2 mb-6 flex-wrap">
@@ -114,16 +135,15 @@ export default function CustomizerPage() {
           </TabsContent>
         </Tabs>
 
-        {/* ✅ Buttons */}
         <div className="mt-8 space-y-4">
-          <button 
+          <button
             onClick={handleAddToCart}
             className="w-full bg-yellow-500 hover:bg-yellow-400 text-black py-3 rounded-lg font-bold text-lg transition"
           >
             Ajouter au panier
           </button>
 
-          <button 
+          <button
             onClick={handleBuy}
             className="w-full bg-green-600 hover:bg-green-500 text-white py-3 rounded-lg font-bold text-lg transition"
           >
