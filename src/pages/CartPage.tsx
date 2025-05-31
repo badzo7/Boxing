@@ -56,7 +56,7 @@ const CartPage: React.FC = () => {
                       <div
                         className="h-16 w-16 rounded shadow-inner border border-white"
                         style={{
-                          background: `linear-gradient(135deg, ${item.glove?.fingersColor?.hex || '#111'}, ${item.glove?.outerPalmColor?.hex || '#333'})`
+                          background: `linear-gradient(135deg, ${item.glove.fingersColor?.hex || '#111'}, ${item.glove.outerPalmColor?.hex || '#333'})`
                         }}
                         title="Glove preview"
                       />
@@ -65,24 +65,18 @@ const CartPage: React.FC = () => {
                     <div>
                       <h3 className="font-semibold mb-1">Custom Boxing Gloves</h3>
                       <ul className="text-sm text-neutral-400 space-y-1">
-                        <li>Size: {item.glove?.size || '—'}</li>
-                        <li>Material: {item.glove?.material?.name || '—'}</li>
-                        <li>Fingers: {item.glove?.fingersColor?.name || '—'}</li>
-                        <li>Outer Palm: {item.glove?.outerPalmColor?.name || '—'}</li>
-                        <li>Inner Palm: {item.glove?.innerPalmColor?.name || '—'}</li>
-                        <li>Inner Thumb: {item.glove?.innerThumbColor?.name || '—'}</li>
-                        <li>Outer Thumb: {item.glove?.outerThumbColor?.name || '—'}</li>
-                        <li>Strap: {item.glove?.strapColor?.name || '—'}</li>
-                        <li>Wrist: {item.glove?.wristColor?.name || '—'}</li>
-                        <li>Outline: {item.glove?.outlineColor?.name || '—'}</li>
-                        <li>Text (Strap): {item.textZones?.Strap?.text || '—'}</li>
-                        <li>Images (Strap): {item.customImages?.Strap?.length || 0} image(s)</li>
+                        <li>Size: {item.glove.size}</li>
+                        <li>Fingers: {item.glove.fingersColor?.name}</li>
+                        <li>Outer Palm: {item.glove.outerPalmColor?.name}</li>
+                        <li>Inner Palm: {item.glove.innerPalmColor?.name}</li>
+                        <li>Strap: {item.glove.strapColor?.name}</li>
+                        <li>Wrist: {item.glove.wristColor?.name}</li>
                       </ul>
                     </div>
                   </div>
 
                   <div className="col-span-2 text-center">
-                    ${item.price.toFixed(2)}
+                    ${Number(item.price || 0).toFixed(2)}
                   </div>
 
                   <div className="col-span-2 flex items-center justify-center gap-2">
@@ -102,7 +96,7 @@ const CartPage: React.FC = () => {
                   </div>
 
                   <div className="col-span-2 text-right flex items-center justify-end gap-4">
-                    <span>${(item.price * item.quantity).toFixed(2)}</span>
+                    <span>${(Number(item.price || 0) * Number(item.quantity || 1)).toFixed(2)}</span>
                     <button
                       onClick={() => removeFromCart(item.id)}
                       className="text-neutral-500 hover:text-red-500 transition-colors"
@@ -113,6 +107,7 @@ const CartPage: React.FC = () => {
                   </div>
                 </div>
               ))}
+
             </div>
           </div>
         </div>
@@ -124,7 +119,7 @@ const CartPage: React.FC = () => {
             <div className="space-y-3 mb-6">
               <div className="flex justify-between">
                 <span className="text-neutral-400">Subtotal</span>
-                <span>${getTotalPrice().toFixed(2)}</span>
+                <span>${Number(getTotalPrice() || 0).toFixed(2)}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-neutral-400">Shipping</span>
@@ -139,7 +134,7 @@ const CartPage: React.FC = () => {
             <div className="border-t border-neutral-700 pt-4 mb-6">
               <div className="flex justify-between font-bold">
                 <span>Total</span>
-                <span>${getTotalPrice().toFixed(2)}</span>
+                <span>${Number(getTotalPrice() || 0).toFixed(2)}</span>
               </div>
             </div>
 
@@ -158,4 +153,5 @@ const CartPage: React.FC = () => {
   );
 };
 
-export default CartPage;
+export default CartPage; 
+ 
