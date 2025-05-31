@@ -6,8 +6,11 @@ import ImageUploader from '../components/customizer/ImageUploader';
 import SizeSelector from '../components/customizer/SizeSelector';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '../components/ui/Tabs';
 import { useCustomizationStore } from '../store/customizationStore';
+import { useCartStore } from '../store/cartStore';
 
 export default function CustomizerPage() {
+
+  const { addToCart } = useCartStore();
 
   const handleBuy = async () => {
     const { glove, textZones, customImages } = useCustomizationStore.getState();
@@ -45,6 +48,22 @@ export default function CustomizerPage() {
       console.error(err);
       alert('❌ Erreur réseau.');
     }
+  };
+
+  const handleAddToCart = () => {
+    const { glove, textZones, customImages } = useCustomizationStore.getState();
+
+    const item = {
+      id: crypto.randomUUID(), // identifiant unique pour le panier
+      glove,
+      textZones,
+      customImages,
+      price: 149.99, // tu peux calculer dynamiquement si besoin
+      quantity: 1
+    };
+
+    addToCart(item);
+    alert('✅ Gant ajouté au panier !');
   };
 
   return (
@@ -100,11 +119,18 @@ export default function CustomizerPage() {
           </TabsContent>
         </Tabs>
 
-        {/* ✅ Buy Button - visible en permanence */}
-        <div className="mt-8">
+        {/* ✅ Buttons visible en permanence */}
+        <div className="mt-8 space-y-4">
+          <button 
+            onClick={handleAddToCart}
+            className="w-full bg-yellow-500 hover:bg-yellow-400 text-black py-3 rounded-lg font-bold text-lg transition"
+          >
+            Ajouter au panier
+          </button>
+
           <button 
             onClick={handleBuy}
-            className="w-full bg-yellow-500 hover:bg-yellow-400 text-black py-3 rounded-lg font-bold text-lg transition"
+            className="w-full bg-green-600 hover:bg-green-500 text-white py-3 rounded-lg font-bold text-lg transition"
           >
             Acheter maintenant
           </button>
