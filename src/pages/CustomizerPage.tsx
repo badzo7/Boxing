@@ -52,22 +52,14 @@ export default function CustomizerPage() {
   };
 
   const handleAddToCart = () => {
-    const { glove, textZones, customImages } = useCustomizationStore.getState();
+    const { glove, textZones, customImages, calculatePrice } = useCustomizationStore.getState();
 
     const item = {
       id: crypto.randomUUID(),
-      glove: {
-        size: glove.size || '12oz',
-        fingersColor: glove.fingersColor || { name: 'Unknown', hex: '#000000', price: 0 },
-        outerPalmColor: glove.outerPalmColor || { name: 'Unknown', hex: '#000000', price: 0 },
-        innerPalmColor: glove.innerPalmColor || { name: 'Unknown', hex: '#000000', price: 0 },
-        strapColor: glove.strapColor || { name: 'Unknown', hex: '#000000', price: 0 },
-        wristColor: glove.wristColor || { name: 'Unknown', hex: '#000000', price: 0 },
-        material: glove.material || { name: 'Unknown', description: '', price: 0 }
-      },
+      glove, // ✅ Garde l’objet glove complet
       textZones,
       customImages,
-      price: 149.99,
+      price: Number(calculatePrice()),
       quantity: 1,
     };
 
@@ -129,7 +121,7 @@ export default function CustomizerPage() {
           </TabsContent>
         </Tabs>
 
-        {/* ✅ Boutons visibles en bas */}
+        {/* ✅ Buttons at the bottom */}
         <div className="mt-8 space-y-4">
           <button 
             onClick={handleAddToCart}
