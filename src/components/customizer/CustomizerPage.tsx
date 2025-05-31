@@ -1,4 +1,5 @@
 import React from 'react'; 
+import { useNavigate } from 'react-router-dom';
 import GloveViewer from '../components/GloveViewer';
 import ColorSelector from '../components/customizer/ColorSelector';
 import TextCustomization from '../components/customizer/TextCustomization';
@@ -9,8 +10,8 @@ import { useCustomizationStore } from '../store/customizationStore';
 import { useCartStore } from '../store/cartStore';
 
 export default function CustomizerPage() {
-
   const { addToCart } = useCartStore();
+  const navigate = useNavigate();
 
   const handleBuy = async () => {
     const { glove, textZones, customImages } = useCustomizationStore.getState();
@@ -54,16 +55,18 @@ export default function CustomizerPage() {
     const { glove, textZones, customImages } = useCustomizationStore.getState();
 
     const item = {
-      id: crypto.randomUUID(), // identifiant unique pour le panier
+      id: crypto.randomUUID(),
       glove,
       textZones,
       customImages,
-      price: 149.99, // tu peux calculer dynamiquement si besoin
-      quantity: 1
+      price: 149.99,
+      quantity: 1,
     };
 
     addToCart(item);
+    console.log('✅ Gant ajouté au panier :', item);
     alert('✅ Gant ajouté au panier !');
+    navigate('/cart'); // Redirection automatique vers le panier
   };
 
   return (
@@ -92,17 +95,9 @@ export default function CustomizerPage() {
           <TabsContent value="materials">
             <div className="space-y-4 text-neutral-300">
               <h4 className="text-xl font-semibold text-white">How Our Gloves Are Made</h4>
-              <p>
-                Our gloves are crafted from premium-grade leather, carefully selected for durability, flexibility,
-                and comfort. Each glove is hand-cut and expertly stitched to ensure a perfect anatomical fit and long-lasting performance.
-              </p>
-              <p>
-                Inside, the gloves are lined with breathable moisture-wicking fabric to keep your hands cool and dry. 
-                Multi-layered high-density foam provides unmatched shock absorption while protecting your knuckles and wrists.
-              </p>
-              <p>
-                Combining traditional craftsmanship with cutting-edge design, our gloves are battle-tested and built to perform — in the gym, in the ring, and beyond.
-              </p>
+              <p>Our gloves are crafted from premium-grade leather, carefully selected for durability, flexibility, and comfort.</p>
+              <p>Each glove is hand-cut and expertly stitched to ensure a perfect anatomical fit and long-lasting performance.</p>
+              <p>Combining traditional craftsmanship with cutting-edge design, our gloves are battle-tested and built to perform.</p>
             </div>
           </TabsContent>
 
@@ -119,7 +114,7 @@ export default function CustomizerPage() {
           </TabsContent>
         </Tabs>
 
-        {/* ✅ Buttons visible en permanence */}
+        {/* ✅ Buttons */}
         <div className="mt-8 space-y-4">
           <button 
             onClick={handleAddToCart}
@@ -132,7 +127,7 @@ export default function CustomizerPage() {
             onClick={handleBuy}
             className="w-full bg-green-600 hover:bg-green-500 text-white py-3 rounded-lg font-bold text-lg transition"
           >
-            Acheter maintenant
+            Commander maintenant
           </button>
         </div>
       </div>
