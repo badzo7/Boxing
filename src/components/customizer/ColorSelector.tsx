@@ -1,7 +1,7 @@
 import React from 'react';
 import { useCustomizationStore } from '../../store/customizationStore';
 import { GloveColor } from '../../types/glove';
-
+    
 const colors: GloveColor[] = [  
   { name: 'Classic Black', hex: '#000000', price: 0 },  
   { name: 'Classic White', hex: '#FFFFFF', price: 0 },  
@@ -19,20 +19,20 @@ const colors: GloveColor[] = [
   { name: 'Rose Gold', hex: '#f472b6', price: 0 },
   { name: 'Ultra Black', hex: '#0A0A0A', price: 0 }
 ];   
-
+ 
 const ColorSelector: React.FC = () => {  
   const { glove, updateColor } = useCustomizationStore();
-
+ 
   const sections = [
-    { id: 'fingersColor', label: 'Fingers', color: glove.fingersColor },
-    { id: 'innerPalmColor', label: 'Inner Palm', color: glove.innerPalmColor },
-    { id: 'outerPalmColor', label: 'Outer Palm', color: glove.outerPalmColor },
-    { id: 'innerThumbColor', label: 'Inner Thumb', color: glove.innerThumbColor },
-    { id: 'outerThumbColor', label: 'Outer Thumb', color: glove.outerThumbColor },
-    { id: 'strapColor', label: 'Strap', color: glove.strapColor },
-    { id: 'wristColor', label: 'Wrist', color: glove.wristColor },
-    { id: 'wristOutlineColor', label: 'Wrist Outline', color: glove.wristOutlineColor },
-    { id: 'outlineColor', label: 'Outline', color: glove.outlineColor },
+    { id: 'fingers', label: 'Fingers', color: glove.fingersColor },
+    { id: 'innerPalm', label: 'Inner Palm', color: glove.innerPalmColor },
+    { id: 'outerPalm', label: 'Outer Palm', color: glove.outerPalmColor },
+    { id: 'innerThumb', label: 'Inner Thumb', color: glove.innerThumbColor },
+    { id: 'outerThumb', label: 'Outer Thumb', color: glove.outerThumbColor },
+    { id: 'strap', label: 'Wrist Outline', color: glove.strapColor },
+    { id: 'wrist', label: 'Wrist', color: glove.wristColor },
+    { id: 'wristOutline', label: 'Starp', color: glove.wristOutlineColor },
+    { id: 'outline', label: 'Outline', color: glove.outlineColor },
   ];
 
   return (
@@ -80,5 +80,5 @@ const ColorSelector: React.FC = () => {
     </div>
   );
 };
-
+ 
 export default ColorSelector;
