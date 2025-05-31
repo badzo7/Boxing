@@ -47,10 +47,7 @@ const CartPage: React.FC = () => {
               </div>
 
               {items.map((item) => (
-                <div 
-                  key={item.id} 
-                  className="grid grid-cols-12 items-start py-6 border-b border-neutral-700"
-                >
+                <div key={item.id} className="grid grid-cols-12 items-start py-6 border-b border-neutral-700">
                   <div className="col-span-6 flex gap-4">
                     <div className="bg-neutral-700 rounded-lg h-24 w-24 flex items-center justify-center overflow-hidden">
                       <div
@@ -58,19 +55,23 @@ const CartPage: React.FC = () => {
                         style={{
                           background: `linear-gradient(135deg, ${item.glove?.fingersColor?.hex || '#111'}, ${item.glove?.outerPalmColor?.hex || '#333'})`
                         }}
-                        title="Glove preview"
                       />
                     </div>
 
                     <div>
                       <h3 className="font-semibold mb-1">Custom Boxing Gloves</h3>
-                      <ul className="text-sm text-neutral-400 space-y-1">
-                        <li>Size: {item.glove?.size || '—'}</li>
-                        <li>Fingers: {item.glove?.fingersColor?.name || '—'}</li>
-                        <li>Outer Palm: {item.glove?.outerPalmColor?.name || '—'}</li>
-                        <li>Inner Palm: {item.glove?.innerPalmColor?.name || '—'}</li>
-                        <li>Strap: {item.glove?.strapColor?.name || '—'}</li>
-                        <li>Wrist: {item.glove?.wristColor?.name || '—'}</li>
+                      <ul className="text-sm text-neutral-300 space-y-1">
+                        <li>Size: {item.glove?.size}</li>
+                        <li>Fingers: {item.glove?.fingersColor?.name} ({item.glove?.fingersColor?.hex})</li>
+                        <li>Outer Palm: {item.glove?.outerPalmColor?.name} ({item.glove?.outerPalmColor?.hex})</li>
+                        <li>Inner Palm: {item.glove?.innerPalmColor?.name} ({item.glove?.innerPalmColor?.hex})</li>
+                        <li>Inner Thumb: {item.glove?.innerThumbColor?.name} ({item.glove?.innerThumbColor?.hex})</li>
+                        <li>Outer Thumb: {item.glove?.outerThumbColor?.name} ({item.glove?.outerThumbColor?.hex})</li>
+                        <li>Strap: {item.glove?.strapColor?.name} ({item.glove?.strapColor?.hex})</li>
+                        <li>Wrist: {item.glove?.wristColor?.name} ({item.glove?.wristColor?.hex})</li>
+                        <li>Wrist Outline: {item.glove?.wristOutlineColor?.name} ({item.glove?.wristOutlineColor?.hex})</li>
+                        <li>Outline: {item.glove?.outlineColor?.name} ({item.glove?.outlineColor?.hex})</li>
+                        <li>Material: {item.glove?.material?.name}</li>
                       </ul>
 
                       {/* ✅ Texts */}
@@ -122,38 +123,28 @@ const CartPage: React.FC = () => {
                   </div>
 
                   <div className="col-span-2 flex items-center justify-center gap-2">
-                    <button
-                      onClick={() => updateQuantity(item.id, Math.max(1, item.quantity - 1))}
-                      className="text-neutral-400 hover:text-white transition-colors"
-                    >
-                      <MinusCircle className="h-4 w-4" />
+                    <button onClick={() => updateQuantity(item.id, Math.max(1, item.quantity - 1))}>
+                      <MinusCircle className="h-4 w-4 text-neutral-400 hover:text-white" />
                     </button>
                     <span>{item.quantity}</span>
-                    <button
-                      onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                      className="text-neutral-400 hover:text-white transition-colors"
-                    >
-                      <PlusCircle className="h-4 w-4" />
+                    <button onClick={() => updateQuantity(item.id, item.quantity + 1)}>
+                      <PlusCircle className="h-4 w-4 text-neutral-400 hover:text-white" />
                     </button>
                   </div>
 
                   <div className="col-span-2 text-right flex items-center justify-end gap-4">
                     <span>${(Number(item.price || 0) * Number(item.quantity || 1)).toFixed(2)}</span>
-                    <button
-                      onClick={() => removeFromCart(item.id)}
-                      className="text-neutral-500 hover:text-red-500 transition-colors"
-                      aria-label="Remove item"
-                    >
-                      <X className="h-5 w-5" />
+                    <button onClick={() => removeFromCart(item.id)} aria-label="Remove item">
+                      <X className="h-5 w-5 text-neutral-500 hover:text-red-500" />
                     </button>
                   </div>
                 </div>
               ))}
-
             </div>
           </div>
         </div>
 
+        {/* ✅ Right Summary */}
         <div>
           <div className="bg-neutral-800 rounded-xl p-6">
             <h2 className="text-xl font-bold mb-4">Order Summary</h2>
@@ -161,7 +152,7 @@ const CartPage: React.FC = () => {
             <div className="space-y-3 mb-6">
               <div className="flex justify-between">
                 <span className="text-neutral-400">Subtotal</span>
-                <span>${Number(getTotalPrice() || 0).toFixed(2)}</span>
+                <span>${getTotalPrice().toFixed(2)}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-neutral-400">Shipping</span>
@@ -176,7 +167,7 @@ const CartPage: React.FC = () => {
             <div className="border-t border-neutral-700 pt-4 mb-6">
               <div className="flex justify-between font-bold">
                 <span>Total</span>
-                <span>${Number(getTotalPrice() || 0).toFixed(2)}</span>
+                <span>${getTotalPrice().toFixed(2)}</span>
               </div>
             </div>
 
