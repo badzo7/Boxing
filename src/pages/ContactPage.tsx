@@ -190,8 +190,8 @@ const ContactPage: React.FC = () => {
                     <div>
                       <h3 className="font-semibold mb-1">Phone Number</h3>
                       <p className="text-neutral-400">
-                        <a href="tel:+18005559876" className="hover:text-red-500 transition-colors">
-                          +1 (800) 555-9876
+                        <a href="tel:+971503085014" className="hover:text-red-500 transition-colors">
+                          +971 50 308 50 14
                         </a>
                       </p>
                     </div>
@@ -262,7 +262,7 @@ const ContactPage: React.FC = () => {
             <div className="bg-neutral-800 rounded-xl p-6">
               <h3 className="text-lg font-semibold mb-2">Can I change my order after it's been placed?</h3>
               <p className="text-neutral-400">
-                Changes can be made within 24 hours of placing your order. After that, production begins and changes cannot be accommodated.
+                Changes cannot be made once order is placed.
               </p>
             </div>
             
